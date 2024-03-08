@@ -20,7 +20,7 @@ Each module can be installed independently as shown below.
 
 - Install for Windows:
 ```
-c:\python27\python3.exe -m pip3 install requests beautifulsoup4
+c:\python38\python3.exe -m pip3 install requests beautifulsoup4
 ```
 
 - Install using pip on Linux:
