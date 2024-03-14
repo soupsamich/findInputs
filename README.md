@@ -12,7 +12,7 @@ findInputs currently supports **Python 2** and **Python 3**.
 
 ## Dependencies:
 
-findInputs depends on the `requests`, `BeautifulSoup` and `argparse` python modules.
+findInputs depends on the `requests`, `BeautifulSoup`, `argparse` and `time` python modules.
 
 Each module can be installed independently as shown below.
 
@@ -36,6 +36,8 @@ Short Form    | Long Form     | Description
 -u            | --url         | Starting URL to crawl from
 -d            | --domain      | Stay within this domain when following links
 -he           | --hide-empty  | Hide endpoints with 0 input fields
+-un           | --unique      | Only show inputs that haven't been seen before
+-t            | --rate-limit  | Number of seconds to wait between requests
 
 ### Examples
 
@@ -43,9 +45,9 @@ Short Form    | Long Form     | Description
 
 ```python3 findInputs.py -u "https://www.example.com" -d "example.com"```
 
-* Return input fields, but exclude endpoints that return 0:
+* Return input fields, but exclude endpoints that return 0, and only show unique inputs:
 
-``python3 findInputs.py -u "https://www.example.com" -d "example.com" -he``
+``python3 findInputs.py -u "https://www.example.com" -d "example.com" -he -un``
 
 
 ## License
