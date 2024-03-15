@@ -50,6 +50,9 @@ Short Form    | Long Form     | Description
 ``python3 findInputs.py -u "https://www.example.com" -d "example.com" -he -un``
 
 
+## Logging
+A log file will be created in the current user's home directory with the name `findInputsLog.log`
+
 ## License
 
 This project is licensed under the GPL-3.0 License - see the LICENSE.md file for details
