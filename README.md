@@ -12,7 +12,7 @@ findInputs currently supports **Python 2** and **Python 3**.
 
 ## Dependencies:
 
-findInputs depends on the `requests`, `BeautifulSoup`, `argparse` and `time` python modules.
+findInputs depends on the `requests`, `BeautifulSoup`, `argparse`, `time`, `logging`, and `os` python modules.
 
 Each module can be installed independently as shown below.
 
