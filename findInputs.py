@@ -3,6 +3,12 @@ from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 import argparse
 import time
+import logging
+import os.path
+
+# Create log file in user's home directory with file name "findInputsLog.log"
+logfile = "~/findInputsLog.log"
+logging.basicConfig(filename=os.path.expanduser(logfile),level=logging.DEBUG)
 
 # Set up the argument parser
 parser = argparse.ArgumentParser(
@@ -15,6 +21,18 @@ parser.add_argument('-un', '--unique', action='store_true', help='Show only uniq
 parser.add_argument('-t', '--rate-limit', type=float, default=0, help='Number of seconds to wait between requests')
 args = parser.parse_args()
 
+# ANSI escape codes for colors
+RED = '\033[91m'
+GREEN = '\033[92m'
+YELLOW = '\033[93m'
+BLUE = '\033[94m'
+RESET = '\033[0m'
+
+# Request headers to help prevent 403 responses
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.6261.95 Safari/537.36'
+    }
+
 # A set to keep track of visited URLs and unique input fields
 visited = set()
 unique_inputs = set()
@@ -23,16 +41,9 @@ unique_inputs = set()
 def create_unique_id(input_field):
     return f"{input_field.get('id', '')}-{input_field.get('name', '')}-{input_field.get('type', '')}"
 
-# ANSI escape codes for colors
-RED = '\033[91m'
-GREEN = '\033[92m'
-YELLOW = '\033[93m'
-BLUE = '\033[94m'
-RESET = '\033[0m'
-
 # A function to find all the input fields in a given page
 def find_input_fields(url):
-    response = requests.get(url)
+    response = requests.get(url, headers=headers)
     soup = BeautifulSoup(response.text, 'html.parser')
     inputs = soup.find_all('input')
     new_inputs = []
@@ -59,7 +70,7 @@ def find_input_fields(url):
 
 # A function to get all the links from a webpage
 def get_all_links(url):
-    response = requests.get(url)
+    response = requests.get(url, headers=headers)
     soup = BeautifulSoup(response.text, 'html.parser')
     for link in soup.find_all('a', href=True):
         href = link['href']
@@ -77,4 +88,9 @@ def crawl(url):
         crawl(link)
 
 # Start crawling from the initial URL
-crawl(args.url)
+try:
+    [crawl(args.url)]
+    
+except Exception as e:
+    logging.info(e)
+    
