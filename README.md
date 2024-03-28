@@ -28,7 +28,7 @@ c:\python38\python3.exe -m pip3 install requests beautifulsoup4
 sudo pip3 install requests beautifulsoup4 argparse
 ```
 
-## Usage
+## Usage:
 
 Short Form    | Long Form     | Description
 ------------- | ------------- |-------------
@@ -47,15 +47,15 @@ Short Form    | Long Form     | Description
 
 * Return input fields, but exclude endpoints that return 0, and only show unique inputs:
 
-``python3 findInputs.py -u "https://www.example.com" -d "example.com" -he -un``
+```python3 findInputs.py -u "https://www.example.com" -d "example.com" -he -un```
 
 
-## Logging
+## Logging:
 A log file will be created in the current user's home directory with the name `findInputsLog.log`
 
-## License
+## License:
 
 This project is licensed under the GPL-3.0 License - see the LICENSE.md file for details
 
-## Version
+## Version:
 **Current version is 1.0**
