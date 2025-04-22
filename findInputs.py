@@ -32,7 +32,7 @@ parser = argparse.ArgumentParser(
 )
 parser.add_argument('-u', '--url', required=True, help='The starting URL of the website to crawl')
 parser.add_argument('-d', '--domain', required=True, help='The domain to restrict the crawl to')
-parser.add_argument('-O', '--output', required=True, help='The output JSON file to write data')
+parser.add_argument('-o', '--output', required=True, help='The output JSON file to write data')
 parser.add_argument('-he', '--hide-empty', action='store_true', help='Hide endpoints with 0 input fields')
 parser.add_argument('-un', '--unique', action='store_true', help='Show only unique input fields not seen before')
 parser.add_argument('-t', '--rate-limit', type=float, default=0, help='Number of seconds to wait between requests')
