@@ -35,6 +35,7 @@ Short Form    | Long Form     | Description
 -h            | --help        | Show the help message and exit
 -u            | --url         | Starting URL to crawl from
 -d            | --domain      | Stay within this domain when following links
+-o            | --output      | The output JSON file to write data
 -he           | --hide-empty  | Hide endpoints with 0 input fields
 -un           | --unique      | Only show inputs that haven't been seen before
 -t            | --rate-limit  | Number of seconds to wait between requests
@@ -45,9 +46,9 @@ Short Form    | Long Form     | Description
 
 ```python3 findInputs.py -u "https://www.example.com" -d "example.com"```
 
-* Return input fields, but exclude endpoints that return 0, and only show unique inputs:
+* Return input fields, but exclude endpoints that return 0, only show unique inputs, rate limit to 0.8 seconds, and output the data to output.json file:
 
-```python3 findInputs.py -u "https://www.example.com" -d "example.com" -he -un```
+```python3 findInputs.py -u "https://www.example.com" -d "example.com" -he -un -t 0.8 -o "output.json"```
 
 
 ## Logging:
