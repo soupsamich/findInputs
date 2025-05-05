@@ -29,7 +29,7 @@ logging.basicConfig(filename=os.path.expanduser(logfile), level=logging.DEBUG)
 # Set up argument parser with necessary options
 parser = argparse.ArgumentParser(
     description='Web crawler to find input fields',
-    epilog='Example: python3 findInputs.py -t "https://www.example.com" -s "example.com" -he -un -r 0.8 -O "output.json"'
+    epilog='Example: python3 findInputs.py -t "https://www.example.com" -s "example.com" -he -un -r 0.8 -o "output.json"'
 )
 parser.add_argument('-t', '--target', required=True, help='The target URL of the website to crawl')
 parser.add_argument('-s', '--scope', required=True, help='The domain to restrict the crawl to')
