@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
+from urllib.parse import urlparse
 import argparse
 import time
 import logging
@@ -28,14 +29,14 @@ logging.basicConfig(filename=os.path.expanduser(logfile), level=logging.DEBUG)
 # Set up argument parser with necessary options
 parser = argparse.ArgumentParser(
     description='Web crawler to find input fields',
-    epilog='Example: python3 findInputs.py -u "https://www.example.com" -d "example.com" -he -un -t 0.8 -O "output.json"'
+    epilog='Example: python3 findInputs.py -t "https://www.example.com" -s "example.com" -he -un -r 0.8 -O "output.json"'
 )
-parser.add_argument('-u', '--url', required=True, help='The starting URL of the website to crawl')
-parser.add_argument('-d', '--domain', required=True, help='The domain to restrict the crawl to')
+parser.add_argument('-t', '--target', required=True, help='The target URL of the website to crawl')
+parser.add_argument('-s', '--scope', required=True, help='The domain to restrict the crawl to')
 parser.add_argument('-o', '--output', required=True, help='The output JSON file to write data')
 parser.add_argument('-he', '--hide-empty', action='store_true', help='Hide endpoints with 0 input fields')
 parser.add_argument('-un', '--unique', action='store_true', help='Show only unique input fields not seen before')
-parser.add_argument('-t', '--rate-limit', type=float, default=0, help='Number of seconds to wait between requests')
+parser.add_argument('-r', '--rate-limit', type=float, default=0, help='Number of seconds to wait between requests')
 args = parser.parse_args()
 
 # ANSI escape codes for terminal text colors
@@ -55,7 +56,7 @@ headers = {
 visited = set()
 unique_inputs = set()
 
-# A function to create a unique identifier for an input field
+# Function to create a unique identifier for an input field
 def create_unique_id(input_field):
     return f"{input_field.get('id', '')}-{input_field.get('name', '')}-{input_field.get('type', '')}"
 
@@ -112,12 +113,20 @@ def get_all_links(url):
         soup = BeautifulSoup(response.text, 'html.parser')
         for link in soup.find_all('a', href=True):
             href = link['href']
+            
             # Resolve relative links to absolute URLs
             if not href.startswith('http'):
                 href = urljoin(url, href)
-            if args.domain in href and href not in visited:
+            
+            # Extract domain from URL
+            parsed_href = urlparse(href).netloc
+            scope_domain = args.scope  # Extract base domain from the provided URL
+            
+            # Ensure the link belongs to the target domain
+            if parsed_href.endswith(scope_domain) and href not in visited:
                 visited.add(href)
                 yield href
+    
     except Exception as e:
         logging.info(f"Error fetching links from {url}: {e}")
 
@@ -130,6 +139,6 @@ def crawl(url):
 
 # Start crawling from the initial URL
 try:
-    crawl(args.url)
+    crawl(args.target)
 except Exception as e:
     logging.info(f"Script error: {e}")
